@@ -8,3 +8,6 @@ terraform.tfvars
 
 # Sentinel cache
 **/.sentinel/*
+
+# macOS
+.DS_Store

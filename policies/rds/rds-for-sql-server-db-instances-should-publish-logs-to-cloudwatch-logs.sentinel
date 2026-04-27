@@ -8,7 +8,6 @@
 import "tfplan/v2" as tfplan
 import "tfresources" as tf
 import "report" as report
-import "collection" as collection
 import "collection/maps" as maps
 import "strings"
 
@@ -39,12 +38,10 @@ has_required_log_exports = func(log_exports) {
 # Variables
 
 resources = tf.plan(tfplan.planned_values.resources).type(const.resource_aws_db_instance).resources
-violations = collection.filter(resources, func(res) {
-	engine = maps.get(res, "values.engine", null)
-	log_exports = maps.get(res, "values.enabled_cloudwatch_logs_exports", null)
-
-	return is_sql_server_engine(engine) and not has_required_log_exports(log_exports)
-})
+violations = filter resources as _, res {
+	is_sql_server_engine(maps.get(res, "values.engine", null)) and
+		not has_required_log_exports(maps.get(res, "values.enabled_cloudwatch_logs_exports", null))
+}
 
 summary = {
 	"policy_name": const.policy_name,

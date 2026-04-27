@@ -66,3 +66,10 @@ endif
 
 	find './policies/*/test' -type f -name '*.hcl' -exec sed -i 's|plugins/darwin/arm64|plugins/$(os)/$(arch)|g' {} +
 .PHONY: replace_plugin_paths
+hygiene:
+	@echo "Running repo-hygiene checks..."
+	@bash scripts/check-docs-presence.sh
+	@bash scripts/check-hcl-sources.sh
+	@bash scripts/check-nist-mapping.sh
+	@echo "Done."
+.PHONY: hygiene

@@ -94,6 +94,10 @@ Following methods outlines various ways to consume and implement pre-written Sen
 - [Sentinel Language Specification](https://developer.hashicorp.com/sentinel/docs/language/spec)
 - [Policy Libraries](https://registry.terraform.io/browse/policies)
 
+## NIST control mapping
+
+For SP 800-53 Rev 5 traceability (with honest **plan-only** limits), see [`docs/nist-control-mapping.md`](docs/nist-control-mapping.md). Per-policy docs under [`docs/policies/`](docs/policies/) remain the detailed reference for each check.
+
 ## Policies Included
 
 - Lambda functions should be in a VPC ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/lambda-functions-should-be-in-a-vpc.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/lambda/lambda-functions-should-be-in-a-vpc.sentinel))
@@ -296,7 +300,7 @@ Following methods outlines various ways to consume and implement pre-written Sen
 
 - Network Firewall policies should have at least one rule group associated ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/network-firewall-policy-rule-group-associated.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/networkfirewall/network-firewall-policy-rule-group-associated.sentinel))
 
-- AWS RDS instance ensure deletion protection enabled ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/rds-ensure-deletion-protection-enabled-for-rds-cluster.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/rds/rds-ensure-deletion-protection-enabled.sentinel))
+- AWS RDS instance ensure deletion protection enabled ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/rds-ensure-cluster-deletion-protection-enabled.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/rds/rds-ensure-deletion-protection-enabled.sentinel))
 
 - Amazon EC2 Auto Scaling group should cover multiple Availability Zones ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/autoscaling-group-should-cover-multiple-azs.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/autoscalinggroup/autoscaling-group-should-cover-multiple-azs.sentinel))
 
@@ -334,7 +338,7 @@ Following methods outlines various ways to consume and implement pre-written Sen
 
 - Cloudtrail LogFile Validation is enabled ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/cloudtrail-log-file-validation-enabled.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/cloudtrail/cloudtrail-log-file-validation-enabled.sentinel))
 
-- AWS RDS instance ensure deletion protection enabled ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/rds-ensure-deletion-protection-enabled-for-db-instance.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/rds/rds-ensure-deletion-protection-enabled.sentinel))
+- AWS RDS instance ensure deletion protection enabled ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/rds-ensure-db-instance-deletion-protection-enabled.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/rds/rds-ensure-deletion-protection-enabled.sentinel))
 
 - AWS DocumentDB clusters should have backup_retention_period set between '7 to 35' ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/docdb-cluster-backup-retention-check.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/docdb/docdb-cluster-backup-retention-check.sentinel))
 
@@ -350,7 +354,7 @@ Following methods outlines various ways to consume and implement pre-written Sen
 
 - ECR repositories should be encrypted with customer managed AWS KMS keys ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/ecr-repositories-should-be-encrypted-with-customer-managed-aws-kms-keys.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/ecr/ecr-repositories-should-be-encrypted-with-customer-managed-aws-kms-keys.sentinel))
 
-- AWS RDS cluster ensure IAM authentication configured ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/rds-ensure-iam-auth-configured-for-rds-cluster.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/rds/rds-ensure-cluster-and-db-instance-iam-auth-configured.sentinel))
+- AWS RDS cluster ensure IAM authentication configured ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/rds-ensure-cluster-iam-auth-configured.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/rds/rds-ensure-cluster-and-db-instance-iam-auth-configured.sentinel))
 
 - Amazon ElastiCache for Redis replication groups should have encryption at rest enabled ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/elasticache-redis-replication-group-encryption-at-rest-enabled.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/elasticache/elasticache-redis-replication-group-encryption-at-rest-enabled.sentinel))
 
@@ -360,7 +364,7 @@ Following methods outlines various ways to consume and implement pre-written Sen
 
 - ECS containers should run as non-privileged ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/ecs-non-privileged-container-definitions.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/ecs/ecs-non-privileged-container-definitions.sentinel))
 
-- AWS RDS instance ensure IAM authentication configured ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/rds-ensure-iam-auth-configured-for-db-instance.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/rds/rds-ensure-cluster-and-db-instance-iam-auth-configured.sentinel))
+- AWS RDS instance ensure IAM authentication configured ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/rds-ensure-db-instance-iam-auth-configured.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/rds/rds-ensure-cluster-and-db-instance-iam-auth-configured.sentinel))
 
 - S3 general purpose buckets should have block public access settings enabled ([docs](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/docs/policies/s3-block-public-access-account-level.md) | [code](https://github.com/hashicorp/policy-library-nist-policy-set-for-aws-terraform/blob/main/policies/s3/s3-block-public-access-account-level.sentinel))
 

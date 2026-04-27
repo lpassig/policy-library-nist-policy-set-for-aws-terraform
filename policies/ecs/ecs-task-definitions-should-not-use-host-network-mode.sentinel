@@ -9,7 +9,6 @@
 import "tfplan/v2" as tfplan
 import "tfresources" as tf
 import "report" as report
-import "collection" as collection
 import "collection/maps" as maps
 
 # Constants
@@ -25,10 +24,9 @@ const = {
 # Variables
 
 resources = tf.plan(tfplan.planned_values.resources).type(const.resource_aws_ecs_task_definition).resources
-violations = collection.filter(resources, func(res) {
-	network_mode = maps.get(res, "values.network_mode", "")
-	return network_mode == const.prohibited_network_mode
-})
+violations = filter resources as _, res {
+	maps.get(res, "values.network_mode", "") is const.prohibited_network_mode
+}
 
 summary = {
 	"policy_name": const.policy_name,

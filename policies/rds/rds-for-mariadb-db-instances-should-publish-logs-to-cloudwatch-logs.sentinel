@@ -8,7 +8,6 @@
 import "tfplan/v2" as tfplan
 import "tfresources" as tf
 import "report" as report
-import "collection" as collection
 import "collection/maps" as maps
 import "strings"
 
@@ -21,32 +20,32 @@ const = {
 	"required_log_types":       ["audit", "error"],
 }
 
-# Variables
+# Functions
 
-resources = tf.plan(tfplan.planned_values.resources).type(const.resource_aws_db_instance).resources
-
-violations = collection.filter(resources, func(res) {
-	# Only apply to MariaDB instances
+mariadb_instance_log_export_noncompliant = func(res) {
 	engine = maps.get(res, "values.engine", "")
 	if engine != "mariadb" {
 		return false
 	}
-
-	# Check if logs are properly configured
 	log_exports = maps.get(res, "values.enabled_cloudwatch_logs_exports", [])
 	if log_exports is null or log_exports is [] {
 		return true
 	}
-
-	# Check if required log types are included
 	for const.required_log_types as required_log {
 		if required_log not in log_exports {
 			return true
 		}
 	}
-
 	return false
-})
+}
+
+# Variables
+
+resources = tf.plan(tfplan.planned_values.resources).type(const.resource_aws_db_instance).resources
+
+violations = filter resources as _, res {
+	mariadb_instance_log_export_noncompliant(res)
+}
 
 summary = {
 	"policy_name": const.policy_name,

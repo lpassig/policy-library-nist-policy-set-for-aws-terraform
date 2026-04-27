@@ -9,7 +9,6 @@
 import "tfplan/v2" as tfplan
 import "tfresources" as tf
 import "report" as report
-import "collection" as collection
 import "collection/maps" as maps
 
 # Constants
@@ -20,26 +19,28 @@ const = {
 	"min_retention_days":            365,
 }
 
+# Functions
+
+log_group_retention_noncompliant = func(res) {
+	retention_in_days = maps.get(res, "values.retention_in_days", null)
+	if retention_in_days is null {
+		return true
+	}
+	# retention_in_days == 0 means "never expire"; this library treats that as
+	# noncompliant for this control (see failure-retention-indefinite tests).
+	if retention_in_days == 0 {
+		return true
+	}
+	return retention_in_days < const.min_retention_days
+}
+
 # Variables
 
 resources = tf.plan(tfplan.planned_values.resources).type(const.resource_cloudwatch_log_group).resources
 
-violations = collection.filter(resources, func(res) {
-	retention_in_days = maps.get(res, "values.retention_in_days", null)
-
-	# If retention_in_days is not set, it's a violation
-	if retention_in_days is null {
-		return true
-	}
-
-	# If retention_in_days is 0 (never expire), it's compliant
-	if retention_in_days == 0 {
-		return true
-	}
-
-	# If retention_in_days is less than minimum required, it's a violation
-	return retention_in_days < const.min_retention_days
-})
+violations = filter resources as _, res {
+	log_group_retention_noncompliant(res)
+}
 
 summary = {
 	"policy_name": const.policy_name,

@@ -94,3 +94,16 @@ make tests
 ```
 
 The test suite for the library is self-contained, using Sentinel [mocks](https://docs.hashicorp.com/sentinel/writing/testing#mocking) and local files to help ensure that it can run offline and is unlikely to be broken by changes to outside systems. For now there are no components that interact with external services, and therefore there should be no need to mock any of the Sentinel standard library imports.
+
+## Repository hygiene
+
+Before opening a PR, run:
+
+```bash
+make hygiene
+```
+
+This checks that every `policy` block in `sentinel.hcl` has matching documentation, that all `source` paths exist, and that `docs/nist-control-mapping.md` lists every policy plus the plan-only organizational controls (AC-1, AT-2, CA-2, IR-4, PS-3). CI runs the same checks in the `repo-hygiene` job.
+
+Release notes belong in `CHANGELOG.md` (Keep a Changelog style).
+

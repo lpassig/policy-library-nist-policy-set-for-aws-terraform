@@ -8,7 +8,6 @@
 import "tfplan/v2" as tfplan
 import "tfresources" as tf
 import "report" as report
-import "collection" as collection
 import "collection/maps" as maps
 
 # Constants
@@ -23,10 +22,9 @@ const = {
 # Variables
 
 resources = tf.plan(tfplan.planned_values.resources).type(const.resource_aws_redshiftserverless_namespace).resources
-violations = collection.filter(resources, func(res) {
-	db_name = maps.get(res, "values.db_name", const.default_db_name)
-	return db_name == const.default_db_name
-})
+violations = filter resources as _, res {
+	maps.get(res, "values.db_name", const.default_db_name) is const.default_db_name
+}
 
 summary = {
 	"policy_name": const.policy_name,

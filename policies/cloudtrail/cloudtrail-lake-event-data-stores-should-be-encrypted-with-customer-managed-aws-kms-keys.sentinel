@@ -7,7 +7,6 @@
 import "tfconfig/v2" as tfconfig
 import "tfresources" as tf
 import "report" as report
-import "collection" as collection
 import "collection/maps" as maps
 
 # Constants
@@ -17,17 +16,23 @@ const = {
 	"resource_type": "aws_cloudtrail_event_data_store",
 }
 
-# Variables
-resources = tf.config(tfconfig.resources).type(const.resource_type).resources
+# Functions
 
-violations = collection.filter(resources, func(res) {
+event_data_store_kms_noncompliant = func(res) {
 	kms_key_id = maps.get(res.config, "kms_key_id", [])
 	if kms_key_id is empty {
 		return true
 	}
 	references = maps.get(kms_key_id, "references", {})
 	return references is empty
-})
+}
+
+# Variables
+resources = tf.config(tfconfig.resources).type(const.resource_type).resources
+
+violations = filter resources as _, res {
+	event_data_store_kms_noncompliant(res)
+}
 
 summary = {
 	"policy_name": const.policy_name,

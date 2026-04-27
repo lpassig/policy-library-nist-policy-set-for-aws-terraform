@@ -950,7 +950,6 @@ policy "iam-password-policy-strong-configuration" {
     require_symbols_param = true
     allow_users_to_change_password_param = true
     max_password_age_param = 90
-    min_password_reuse_prevention_param = 12
     min_password_reuse_prevention_param = 24
   }
 }
